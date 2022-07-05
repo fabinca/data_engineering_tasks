@@ -1,6 +1,7 @@
 import pprint
 from typing import Mapping, Any
-import pymongo as pm
+from pymongo import MongoClient
+from pymongo import database
 from csv import DictReader
 from datetime import datetime as dt
 
@@ -25,7 +26,7 @@ def handle_type(_string: str):
             return _string
 
 
-def csv_to_mongo_collection(_filename: str, _db):
+def csv_to_mongo_collection(_filename: str, _db: database.Database[Mapping[str, Any]]):
     coll = _db[_filename.strip(".csv")]
     print(f"Collection {coll} created.")
     with open(_filename) as data:
@@ -44,7 +45,7 @@ def csv_to_mongo_collection(_filename: str, _db):
 
 
 if __name__ == "__main__":
-    client = pm.MongoClient('localhost', PORT)
+    client = MongoClient('localhost', PORT)
     db = client["turbines"]
     for file in FILES:
         csv_to_mongo_collection(file, db)
