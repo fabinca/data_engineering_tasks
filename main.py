@@ -4,28 +4,29 @@ import pymongo as pm
 from csv import DictReader
 from datetime import datetime as dt
 
+FILES = ["Turbine1.csv", "Turbine2.csv"]
 
+
+# otherwise define for each field which type should be used to optimize memory space
 def handle_type(_string: str):
     if _string.isdigit():
-        #print(type(int(_string)))
         return int(_string)
     try:
         flt = float(_string.replace(",", "."))
-        #print(type(flt))
         return flt
-    except ValueError: #it's not a float or int - should be datetime
+    except ValueError:
+        # if it's not a float or int - should be datetime
         try:
             time = dt.strptime(_string, '%d.%m.%Y, %H:%M')
             return time
         except ValueError:
-            print(f"unexpected format: {_string}")
+            #print(f"unexpected format: {_string}")
             return _string
 
 
-
-
-
-def csv_to_mongo(_filename: str, _collection: pm.collection.Collection[Mapping[str, Any]]):
+def csv_to_mongo_collection(_filename: str, _db):
+    coll = _db[_filename.strip(".csv")]
+    print(f"Collection {coll} created.")
     with open(_filename) as data:
         reader = DictReader(data, delimiter=";")
         header = reader.fieldnames
@@ -33,18 +34,20 @@ def csv_to_mongo(_filename: str, _collection: pm.collection.Collection[Mapping[s
             row = {}
             for field in header:
                 row[field] = handle_type(each[field])
-            #print(row)
-            _collection.insert_one(row)
+            coll.insert_one(row)
+        # delete the second header row
+        coll.delete_one({header[0]: ""})
+        #print(header[0])
+        #resp = coll.create_index(header[0], 1)
+        #print(f"Index {header[0]} created. Response: {resp}")
 
 
-FILES = ["Turbine1.csv", "Turbine2.csv"]
-client = pm.MongoClient()
-db = client["test_db"]
-collection = db["turbines"]
-for file in FILES:
-    csv_to_mongo(file, collection)
 
 if __name__ == "__main__":
-    for info in collection.find({"Rotor": 14.5}):
-        pprint.pprint(info)
-
+    client = pm.MongoClient()
+    db = client["turbines"]
+    for file in FILES:
+        csv_to_mongo_collection(file, db)
+    for collection in db.list_collection_names():
+        for info in db[collection].find({"Rotor": 14.5}):
+            pprint.pprint(info)
