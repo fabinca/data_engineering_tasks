@@ -23,7 +23,7 @@ def handle_type(_string: str):
             return time
         except ValueError:
             #print(f"unexpected format: {_string}")
-            return _string
+            return _string.strip(" ")
 
 
 def csv_to_mongo_collection(_filename: str, _db: database.Database[Mapping[str, Any]]):
@@ -38,7 +38,6 @@ def csv_to_mongo_collection(_filename: str, _db: database.Database[Mapping[str, 
                 row[field.strip(" ")] = handle_type(each[field])
             coll.insert_one(row)
         # delete the second header row
-        coll.delete_one({(header[0]).strip(" "): ""})
         #print(header[0])
         #resp = coll.create_index(header[0], 1)
         #print(f"Index {header[0]} created. Response: {resp}")
