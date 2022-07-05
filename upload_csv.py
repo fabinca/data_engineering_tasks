@@ -38,7 +38,7 @@ def csv_to_mongo_collection(_filename: str, _db: database.Database[Mapping[str, 
                 row[field.strip(" ")] = handle_type(each[field])
             coll.insert_one(row)
         # delete the second header row
-        #print(header[0])
+        coll.delete_many({"Dat/Zeit": ""})
         #resp = coll.create_index(header[0], 1)
         #print(f"Index {header[0]} created. Response: {resp}")
 

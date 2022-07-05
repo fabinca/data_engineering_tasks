@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 PORT = 27017
+TURBINES = ["Turbine1", "Turbine2"]
 
 
 # load wind speed and power to dataframe
@@ -15,20 +16,21 @@ def collection_to_dataframe_windspeed_power(_coll: collection.Collection[Mapping
     return _df
 
 
-def create_scatter(_df: pd.DataFrame):
-    plt.scatter(df['Wind'], df['Leistung'])
+def create_scatter(_dfs, _names):
+    for _df in _dfs:
+        plt.scatter(_df['Wind'], _df['Leistung'], s=1)
+    plt.xlabel("wind speed in m/s")
+    plt.ylabel("power in kw")
+    plt.title("Windspeed and Power relation in Turbines")
+    plt.legend(_names)
     plt.show()
 
-
-
-
-#create scatterplot
 
 if __name__ == "__main__":
     client = MongoClient('localhost', PORT)
     db = client["turbines"]
-    collection = db["Turbine1"]
-    collection.delete_many({"Dat/Zeit": ""})
-    df = collection_to_dataframe_windspeed_power(collection)
-    create_scatter(df)
-    print(df)
+    colls = [db[tur] for tur in TURBINES]
+    for coll in colls:
+        coll.delete_many({"Dat/Zeit": ""})
+    dfs = [collection_to_dataframe_windspeed_power(coll) for coll in colls]
+    create_scatter(dfs, TURBINES)
