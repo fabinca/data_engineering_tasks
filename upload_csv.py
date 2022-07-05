@@ -5,6 +5,7 @@ from csv import DictReader
 from datetime import datetime as dt
 
 FILES = ["Turbine1.csv", "Turbine2.csv"]
+PORT = 27017
 
 
 # otherwise define for each field which type should be used to optimize memory space
@@ -33,21 +34,20 @@ def csv_to_mongo_collection(_filename: str, _db):
         for each in reader:
             row = {}
             for field in header:
-                row[field] = handle_type(each[field])
+                row[field.strip(" ")] = handle_type(each[field])
             coll.insert_one(row)
         # delete the second header row
-        coll.delete_one({header[0]: ""})
+        coll.delete_one({(header[0]).strip(" "): ""})
         #print(header[0])
         #resp = coll.create_index(header[0], 1)
         #print(f"Index {header[0]} created. Response: {resp}")
 
 
-
 if __name__ == "__main__":
-    client = pm.MongoClient()
+    client = pm.MongoClient('localhost', PORT)
     db = client["turbines"]
     for file in FILES:
         csv_to_mongo_collection(file, db)
     for collection in db.list_collection_names():
         for info in db[collection].find({"Rotor": 14.5}):
-            pprint.pprint(info)
+            print(info)

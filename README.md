@@ -1,1 +1,28 @@
 # data_engineering_tasks
+
+System: Ubuntu
+Requirements: 
+docker
+mongod
+python 3
+python packages: pymongo, csv, datetime
+
+start docker for mongodb: 
+-make sure you got the mongodb doker image: 
+check: 
+sudo docker images
+otherwise pull it from docker.hub: 
+sudo docker pull mongo
+
+make sure the port you want to use is free (here: 27017)
+sudo lsof -iTCP -sTCP:LISTEN -n -P
+otherwise kill that process or choose a different port
+
+Connect: 
+create directory for your database: 
+mkdir mongo_data
+connect with mongod & specify your directory:
+mongod --dbpath mongo_data
+or if you changed the port: 
+mongod --dbpath mongo_data --port [portnumber]
+
