@@ -51,3 +51,4 @@ if __name__ == "__main__":
     for collection in db.list_collection_names():
         for info in db[collection].find({"Rotor": 14.5}):
             print(info)
+        db[collection].create_index("Dat/Zeit")

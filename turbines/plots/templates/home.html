@@ -1,27 +1,23 @@
 <!DOCTYPE html>
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Plot</title>
+    <title>Start and end time for plot</title>
 </head>
 <body>
-    <form method="POST" action="/search">
+    <form method="POST" action="">
         {% csrf_token %}
-        <h4> Please type in the time range in which data you are interested. Leave empty for the largest range possible. </h4>
-        <div>
-            <label for="start">Start Date and Time</label>
-            <input type="text" id="start" value="YYYYMMDD HH:MM">
-        </div>
-        <div>
-            <label for="end">End   Date and Time</label>
-            <input type="text" id="end" value="YYYYMMDD HH:MM">
-        </div>
-        <button type="submit">Create Plot</button>
+        <h4> Please type in the time range in which data you are interested.
+            Format: YYYY-MM-DD HH:MM
+        </h4>
+        {{ form.as_p }}
+        <input type="Submit" name="submit" value="Submit"/>
     </form>
-    <h4> Plot with data from __{{ start }}__ to __{{ end }}__</h4>
+{% if submit_button == "Submit" %}
+<h4> Plot with data from {{ start }} to {{ end }}</h4>
     <img src="data:image/>png;base64,{{ data }}" alt="" height="500", width="750">
+{% endif %}
+
 </body>
 </html>

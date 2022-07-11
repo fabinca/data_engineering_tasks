@@ -5,6 +5,8 @@ import pymongo
 import pymongo as pm
 from typing import Mapping, Any
 import pandas as pd
+
+from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from datetime import datetime
 
@@ -24,8 +26,9 @@ def collection_to_dataframe_windspeed_power(_coll: collection.Collection[Mapping
 
 
 def create_scatter(_dfs, _names):
-    plot, axs = plt.subplots(len(TURBINES))
-    plot.suptitle('Wind speed and Power relation in Turbines')
+    fig = Figure()
+    axs = fig.subplots(len(TURBINES))
+    fig.suptitle('Wind speed and Power relation in Turbines')
     i = 0
     for _df in _dfs:
         axs[i].scatter(_df['Wind'], _df['Leistung'], s=1)
@@ -34,8 +37,7 @@ def create_scatter(_dfs, _names):
         i += 1
     for ax in axs.flat:
         ax.label_outer()
-    #plt.show()
-    return plt.gcf()
+    return (fig)
 
 
 def get_my_fig(start, end):
@@ -43,16 +45,15 @@ def get_my_fig(start, end):
     for coll in colls:
         coll.delete_many({"Dat/Zeit": ""})
     try:
-        start = datetime.strptime(start, '%Y%m%d %H:%M')
+        start = datetime.strptime(start, '%Y-%m-%d %H:%M')
     except ValueError:
         start = datetime.strptime("1900", '%Y')
     try:
-        end = datetime.strptime(end, '%Y%m%d %H:%M')
+        end = datetime.strptime(end, '%Y-%m-%d %H:%M')
     except ValueError:
         end = datetime.strptime("2050", '%Y')
     dfs = [collection_to_dataframe_windspeed_power(coll, start, end) for coll in colls]
-    create_scatter(dfs, TURBINES)
-    return plt.gcf()
+    return create_scatter(dfs, TURBINES)
 
 """
 def end_date():
