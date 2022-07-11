@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plot</title>
+</head>
+<body>
+    <form method="POST" action="/search">
+        {% csrf_token %}
+        <h4> Please type in the time range in which data you are interested. </h4>
+        <div>
+            <label for="start_date">Start Date</label>
+            <input type="text" id="start_date" value="YYYYMMDD">
+            <label for="start_time">Time</label>
+            <input type="text" id="start_time" value="HH:MM">
+        </div>
+        <div>
+            <label for="end_date">End   Date</label>
+            <input type="text" id="end_date" value="YYYYMMDD">
+            <label for="end_time">Time</label>
+            <input type="text" id="end_time" value="HH:MM">
+        </div>
+        <button type="submit">Create Plot</button>
+    </form>
+    <h4> Plot with data from __{{ start }}__ to __{{ end }}__</h4>
+    <img src="data:image/>png;base64,{{ data }}" alt="" height="500", width="750">
+</body>
+</html>
