@@ -10,18 +10,14 @@
 <body>
     <form method="POST" action="/search">
         {% csrf_token %}
-        <h4> Please type in the time range in which data you are interested. </h4>
+        <h4> Please type in the time range in which data you are interested. Leave empty for the largest range possible. </h4>
         <div>
-            <label for="start_date">Start Date</label>
-            <input type="text" id="start_date" value="YYYYMMDD">
-            <label for="start_time">Time</label>
-            <input type="text" id="start_time" value="HH:MM">
+            <label for="start">Start Date and Time</label>
+            <input type="text" id="start" value="YYYYMMDD HH:MM">
         </div>
         <div>
-            <label for="end_date">End   Date</label>
-            <input type="text" id="end_date" value="YYYYMMDD">
-            <label for="end_time">Time</label>
-            <input type="text" id="end_time" value="HH:MM">
+            <label for="end">End   Date and Time</label>
+            <input type="text" id="end" value="YYYYMMDD HH:MM">
         </div>
         <button type="submit">Create Plot</button>
     </form>
