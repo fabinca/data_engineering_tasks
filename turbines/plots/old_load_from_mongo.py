@@ -53,7 +53,7 @@ def get_my_fig(start, end):
     except ValueError:
         end = datetime.strptime("2050", '%Y')
     dfs = [collection_to_dataframe_windspeed_power(coll, start, end) for coll in colls]
-    return create_scatter(dfs, TURBINES)
+    return create_scatter(dfs, TURBINES), start, end
 
 """
 def end_date():

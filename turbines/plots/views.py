@@ -17,7 +17,7 @@ def home(request):
     if form.is_valid():
         end = form.cleaned_data.get("end")
         start = form.cleaned_data.get("start")
-        fig = load_mongo.get_my_fig(start, end)
+        fig, start , end = load_mongo.get_my_fig(start, end)
         buf = io.BytesIO()
         fig.savefig(buf, format='png')
         buf.seek(0)

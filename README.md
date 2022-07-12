@@ -7,15 +7,21 @@ Ubuntu
 
 ### Requirements: 
 
-docker
-mongod
+docker or mongod
 python3
 pymongo, csv, datetime, django, matplotlib
 
 
-### start docker for mongodb: 
+make sure the port you want to use is free (here: 27017)
 
--make sure you got the mongodb doker image: 
+sudo lsof -iTCP -sTCP:LISTEN -n -P
+
+otherwise kill that process or choose a different port
+
+
+### start docker container: 
+
+-make sure you got the mongodb docker image: 
 
 check: 
 
@@ -25,14 +31,21 @@ otherwise pull it from docker.hub:
 
 sudo docker pull mongo
 
-make sure the port you want to use is free (here: 27017)
+start the docker container: 
+
+docker run -d -p 27017:27017 --name test-mongo mongo:latest
+
+check if it's running with 
+
+docker ps 
+
+or
 
 sudo lsof -iTCP -sTCP:LISTEN -n -P
 
-otherwise kill that process or choose a different port
 
 
-### Connect: 
+### or with mongod: 
 
 create directory for your database: 
 
