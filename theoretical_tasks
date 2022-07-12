@@ -1,0 +1,21 @@
+Theoretical tasks
+
+What is a Factory Pattern?
+
+The idea is, that an Object which is
+
+
+How would you design a generic CSV importer for multiple CSV files? Each CSV file contains three columns
+with data (date, power, wind speed). The column headers are slightly different for each file. The date
+format and timezone is different for each file.
+
+If the columns are always in the same order, the different header names shouldn’t pose a problem,
+I would set the names [date, power, wind speed] and use them when importing the data into the DB.
+The different date format and timezone can be handled by the dateutil library. But the safer way would
+be probably to define the dateformat for each file and parse it as a variable.
+
+
+How would you find and fix a bug which occurs only for some data points in some date ranges?
+
+Finding: by using try – catch – except
+Fixing: Probably it’s better to fix the bugs when reading the data, so the raw data isn’t changed.
