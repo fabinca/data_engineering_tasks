@@ -2,8 +2,12 @@ Theoretical tasks
 
 What is a Factory Pattern?
 
-The idea is, that an Object which is
-
+goal: seperate creation from use,
+-> so you can use the object without knowing how exactly it's created and that makes it more flexible to change
+the object later on - without having to change the code that is using it.
+-> also this makes it easier to use objects created at runtime ( for example by user input)
+factory: creates the object - usually all objects created in a factory have the same parent / or superclass -
+which defines which methods and attributes the object needs to have
 
 How would you design a generic CSV importer for multiple CSV files? Each CSV file contains three columns
 with data (date, power, wind speed). The column headers are slightly different for each file. The date
@@ -17,5 +21,7 @@ be probably to define the dateformat for each file and parse it as a variable.
 
 How would you find and fix a bug which occurs only for some data points in some date ranges?
 
-Finding: by using try – catch – except
-Fixing: Probably it’s better to fix the bugs when reading the data, so the raw data isn’t changed.
+Finding: by visualization
+Fixing:
+with try catch except
+Probably it’s better to fix the bugs when reading the data, so the raw data isn’t changed.
