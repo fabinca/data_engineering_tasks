@@ -46,3 +46,21 @@ or if you changed the port:
 
 mongod --dbpath mongo_data --port [portnumber]
 
+
+### Load data into the db by running: 
+
+python3 upload_csv.py
+
+
+### Create a scatterplot with the data by running:
+
+python3 scatter_plot.py
+
+
+### Run Django App by:
+
+cd turbines
+
+python3 manage.py runserver
+
+
